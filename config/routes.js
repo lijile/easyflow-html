@@ -27,7 +27,7 @@ export default [
   {
     path: '/flow',
     name: 'flow',
-    icon: 'table',
+    icon: 'bulb',
     routes: [
       {
         path: '/flow/my-task',
@@ -47,6 +47,24 @@ export default [
     name: 'leave.list',
     icon: 'table',
     component: './leave/ApplyList',
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    icon: 'dashboard',
+    routes: [
+      {
+        path: '/admin/definition/list',
+        name: 'definition.list',
+        component: './admin/DefinitionList',
+      },
+      {
+        path: '/admin/definition/detail',
+        name: 'definition.detail',
+        component: './admin/DefinitionDetail',
+        hideInMenu: true,
+      },
+    ],
   },
   {
     path: '/',
