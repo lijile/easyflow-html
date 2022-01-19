@@ -1,18 +1,10 @@
 import * as api from '@/services/admin';
+import { history } from 'umi';
 
 export default {
   namespace: 'admin',
   state: {
-    definition: {},
-    nodeList: [],
-
     definitionList: [],
-    pagination: {
-      current: 1,
-      pageSize: 10,
-      total: 0,
-      showSizeChanger: true,
-    },
   },
   effects: {
     *listDefinition({ payload }, { call, put }) {
@@ -25,15 +17,10 @@ export default {
         },
       });
     },
-    *definitionDetail({ payload }, { call, put }) {
-      const res = yield call(api.getDefinitionDetail, payload);
+    *saveDefinition({ payload }, { call, put }) {
+      const res = yield call(api.saveDefinition, payload);
       const { data } = res;
-      yield put({
-        type: 'updateState',
-        payload: {
-          ...data,
-        },
-      });
+      history.push(`/admin/definition/detail?definition_code=${data.definition.definitionCode}`);
     },
   },
   reducers: {

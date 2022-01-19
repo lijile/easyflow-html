@@ -5,7 +5,7 @@ import './node2.less';
 const Node2 = ({ data }) => {
   return (
     <div className="node2-container">
-      <div>{data.info.text}</div>
+      <div>{data.info.nodeName}</div>
     </div>
   );
 };

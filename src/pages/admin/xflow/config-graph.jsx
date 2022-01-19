@@ -24,6 +24,6 @@ export const useGraphConfig = createGraphConfig((config) => {
 
   /** 设置XFlow画布需要渲染的React节点/边 */
   config.setNodeRender('NODE1', (props) => <Node1 {...props} />);
-  config.setNodeRender('NODE2', Node2);
+  config.setNodeRender('NODE2', (props) => <Node2 {...props} />);
   config.setEdgeRender('EDGE1', (props) => <Edge1 {...props} />);
 });

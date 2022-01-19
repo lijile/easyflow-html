@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
-import { Card, Table } from 'antd';
+import React, { useEffect, useState, } from 'react';
+import { Table, Button, Modal, } from 'antd';
 import { connect, Link } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
+import { PlusOutlined, ExclamationCircleOutlined, } from '@ant-design/icons';
+import DefinitionForm from './components/DefinitionForm';
 
 const DefinitionList = ({ definitionList, dispatch }) => {
+
+	const [createModal, setCreateModal] = useState();
 
 	const columns = [
 		{
@@ -18,6 +22,25 @@ const DefinitionList = ({ definitionList, dispatch }) => {
 			title: '流程名称',
 			dataIndex: 'definitionName',
 		},
+		{
+			title: '操作',
+			render: (text, record) =>
+				<a href="javascript:;"
+					onClick={() => {
+						Modal.confirm({
+							title: '确认删除该流程?',
+							icon: <ExclamationCircleOutlined />,
+							onOk() {
+								dispatch({
+									type: 'admin/deleteDefinition',
+									payload: {
+										definitionCode: record.definitionCode,
+									}
+								})
+							},
+						});
+					}}>删除</a>
+		},
 	];
 
 	useEffect(() => {
@@ -28,12 +51,28 @@ const DefinitionList = ({ definitionList, dispatch }) => {
 	}, []);
 
 	return (
-		<PageContainer>
+		<PageContainer extra={
+			[
+				<Button type="primary" icon={<PlusOutlined />} key="create" onClick={() => setCreateModal(true)}>新建流程</Button>
+			]}>
 			<Table
 				rowKey="definitionCode"
 				columns={columns}
 				dataSource={definitionList}
+				pagination={false}
 			/>
+			{
+				createModal &&
+				<DefinitionForm
+					onCancel={() => setCreateModal(false)}
+					onOk={(form) => {
+						dispatch({
+							type: 'admin/saveDefinition',
+							payload: form,
+						});
+						setCreateModal(false);
+					}} />
+			}
 		</PageContainer>
 	)
 }
